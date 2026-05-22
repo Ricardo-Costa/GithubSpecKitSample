@@ -10,8 +10,9 @@ Start with commands
 
 3. Planning the things. Command `/speckit.plan <instructions -> a aplicação deve usar Typescript + React para o front e typescript + express para o Backend, e banco de dados Sqlite. Para essa versão nao inclua testes automatizados.>`, should specify tecnical things, tools and tecnologies.
 
-4. Create Tasks based on Plan specifications. Command `/`
+4. Create Tasks based on Plan specifications. Command `/speckit.tasks`
 
 ### References
 - https://github.com/github/spec-kit
 - https://docs.astral.sh/uv/
+- https://www.youtube.com/watch?v=AJdCEAW31dM
