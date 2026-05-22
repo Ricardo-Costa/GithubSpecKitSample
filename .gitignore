@@ -1,0 +1,19 @@
+# Node / TypeScript
+node_modules/
+dist/
+build/
+*.log
+.env*
+
+# SQLite / local data
+*.db
+*.db-shm
+*.db-wal
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/

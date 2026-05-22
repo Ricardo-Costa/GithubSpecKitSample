@@ -12,7 +12,32 @@ Start with commands
 
 4. Create Tasks based on Plan specifications. Command `/speckit.tasks`
 
+5. Implementation step. Command `/speckit.implement`
+
 ### References
 - https://github.com/github/spec-kit
 - https://docs.astral.sh/uv/
 - https://www.youtube.com/watch?v=AJdCEAW31dM
+
+## Task Management App
+
+### Backend (TypeScript + Express + SQLite)
+
+1. `cd backend`
+2. `npm install`
+3. `npm run dev`
+
+Backend disponível em `http://localhost:3000`.
+
+### Frontend (TypeScript + React)
+
+1. `cd frontend`
+2. `npm install`
+3. `npm run dev`
+
+Frontend disponível em `http://localhost:5173`.
+
+### Build de validação
+
+- Backend: `cd backend && npm run build`
+- Frontend: `cd frontend && npm run build`
