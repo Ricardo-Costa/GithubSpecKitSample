@@ -7,6 +7,7 @@ interface TaskStatusSelectProps {
 
 export const TaskStatusSelect = ({ task, onChangeStatus }: TaskStatusSelectProps) => (
   <select
+    className="tm-select max-w-52"
     value={task.status}
     onChange={(event) => onChangeStatus(task.id, event.target.value as TaskStatus)}
   >

@@ -41,3 +41,10 @@ Frontend disponível em `http://localhost:5173`.
 
 - Backend: `cd backend && npm run build`
 - Frontend: `cd frontend && npm run build`
+
+### Tema moderno (Tailwind + Dark Mode)
+
+- O frontend usa Tailwind CSS com tokens visuais centralizados em `frontend/src/styles/index.css`.
+- Há um botão no topo da tela para alternar entre modo claro e modo escuro.
+- A preferência de tema é persistida em `localStorage` com a chave `task-management.theme.mode`.
+- Se o valor salvo estiver ausente ou inválido, o fallback automático é modo `light`.

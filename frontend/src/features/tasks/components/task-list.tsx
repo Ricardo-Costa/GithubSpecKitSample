@@ -1,6 +1,6 @@
 import type { Task, TaskStatus } from '../../../types/task';
-import { TaskStatusSelect } from './task-status-select';
 import { TaskListEmptyState } from './task-list-empty-state';
+import { TaskStatusSelect } from './task-status-select';
 
 interface TaskListProps {
   tasks: Task[];
@@ -13,17 +13,29 @@ export const TaskList = ({ tasks, onChangeStatus }: TaskListProps) => {
   }
 
   return (
-    <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
+    <ul
+      style={{ listStyle: 'none', padding: 0, margin: 0 }}
+      className="flex flex-col gap-3"
+    >
       {tasks.map((task) => (
-        <li key={task.id} style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12 }}>
-          <h4 style={{ margin: '0 0 6px 0' }}>{task.title}</h4>
-          <p style={{ margin: '0 0 6px 0' }}>{task.description}</p>
-          <small style={{ display: 'block' }}>prioridade: {task.priority}</small>
-          <small style={{ display: 'block' }}>data prevista: {task.dataPrevistaConclusao ?? 'não definida'}</small>
-          {task.dataConclusaoReal && (
-            <small style={{ display: 'block' }}>data conclusão: {task.dataConclusaoReal}</small>
-          )}
-          <div style={{ marginTop: 8 }}>
+        <li key={task.id} className="tm-card">
+          <h4 className="mb-1 text-base font-semibold">{task.title}</h4>
+          {task.description ? (
+            <p className="mb-3 text-sm tm-muted">{task.description}</p>
+          ) : null}
+
+          <div className="mb-3 flex flex-wrap gap-2">
+            <span className="tm-badge">prioridade: {task.priority}</span>
+            <span className="tm-badge">prevista: {task.dataPrevistaConclusao ?? '—'}</span>
+            {task.dataConclusaoReal ? (
+              <span className="tm-badge">concluída: {task.dataConclusaoReal.slice(0, 10)}</span>
+            ) : null}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="tm-label" style={{ marginBottom: 0 }}>
+              Status:
+            </span>
             <TaskStatusSelect task={task} onChangeStatus={onChangeStatus} />
           </div>
         </li>

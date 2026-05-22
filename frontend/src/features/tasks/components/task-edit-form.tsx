@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { TASK_PRIORITIES, type UpdateTaskPayload } from '../../../types/task';
+import { TASK_PRIORITIES, type TaskPriority, type UpdateTaskPayload } from '../../../types/task';
 import { type TaskFormErrors, validateTaskForm } from '../utils/task-form-validation';
 
 interface TaskEditFormProps {
   title?: string;
   description?: string;
   dataPrevistaConclusao?: string | null;
-  priority?: string;
+  priority?: TaskPriority;
   onSubmit: (payload: UpdateTaskPayload) => Promise<void>;
   onCancel: () => void;
 }
@@ -35,7 +35,7 @@ export const TaskEditForm = ({
       title: form.title,
       description: form.description,
       dataPrevistaConclusao: form.dataPrevistaConclusao,
-      priority: form.priority as any,
+      priority: form.priority,
       status: 'pending'
     });
 
@@ -51,9 +51,10 @@ export const TaskEditForm = ({
       const payload: UpdateTaskPayload = {};
       if (form.title !== initialTitle) payload.title = form.title;
       if (form.description !== initialDescription) payload.description = form.description;
-      if (form.dataPrevistaConclusao !== initialDate)
+      if (form.dataPrevistaConclusao !== initialDate) {
         payload.dataPrevistaConclusao = form.dataPrevistaConclusao;
-      if (form.priority !== initialPriority) payload.priority = form.priority as any;
+      }
+      if (form.priority !== initialPriority) payload.priority = form.priority;
 
       await onSubmit(payload);
     } finally {
@@ -62,57 +63,76 @@ export const TaskEditForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 8, marginBottom: 16 }}>
-      <h3>Editar tarefa</h3>
-      <input
-        placeholder="Título"
-        value={form.title}
-        onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
-      />
-      {errors.title ? <small style={{ color: 'crimson' }}>{errors.title}</small> : null}
+    <form onSubmit={handleSubmit} className="tm-card mb-4" noValidate>
+      <h3 className="mb-4 text-lg font-semibold">Editar tarefa</h3>
 
-      <textarea
-        placeholder="Descrição"
-        value={form.description}
-        onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
-      />
+      <div className="mb-3">
+        <label className="tm-label" htmlFor="ef-title">Título</label>
+        <input
+          id="ef-title"
+          className="tm-input"
+          placeholder="Título"
+          value={form.title}
+          onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
+        />
+        {errors.title ? <span className="tm-error">{errors.title}</span> : null}
+      </div>
 
-      <input
-        type="date"
-        value={form.dataPrevistaConclusao ?? ''}
-        onChange={(event) =>
-          setForm((prev) => ({
-            ...prev,
-            dataPrevistaConclusao: event.target.value || null
-          }))
-        }
-      />
-      {errors.dataPrevistaConclusao ? (
-        <small style={{ color: 'crimson' }}>{errors.dataPrevistaConclusao}</small>
-      ) : null}
+      <div className="mb-3">
+        <label className="tm-label" htmlFor="ef-desc">Descrição</label>
+        <textarea
+          id="ef-desc"
+          className="tm-textarea"
+          placeholder="Descrição"
+          value={form.description}
+          onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
+        />
+      </div>
 
-      <select
-        value={form.priority}
-        onChange={(event) =>
-          setForm((prev) => ({
-            ...prev,
-            priority: event.target.value
-          }))
-        }
-      >
-        {TASK_PRIORITIES.map((priority) => (
-          <option key={priority} value={priority}>
-            {priority}
-          </option>
-        ))}
-      </select>
-      {errors.priority ? <small style={{ color: 'crimson' }}>{errors.priority}</small> : null}
+      <div className="mb-3">
+        <label className="tm-label" htmlFor="ef-date">Data prevista de conclusão</label>
+        <input
+          id="ef-date"
+          className="tm-input"
+          type="date"
+          value={form.dataPrevistaConclusao ?? ''}
+          onChange={(event) =>
+            setForm((prev) => ({
+              ...prev,
+              dataPrevistaConclusao: event.target.value || null
+            }))
+          }
+        />
+        {errors.dataPrevistaConclusao ? <span className="tm-error">{errors.dataPrevistaConclusao}</span> : null}
+      </div>
 
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button type="submit" disabled={submitting}>
+      <div className="mb-4">
+        <label className="tm-label" htmlFor="ef-priority">Prioridade</label>
+        <select
+          id="ef-priority"
+          className="tm-select"
+          value={form.priority}
+          onChange={(event) =>
+            setForm((prev) => ({
+              ...prev,
+              priority: event.target.value as TaskPriority
+            }))
+          }
+        >
+          {TASK_PRIORITIES.map((priority) => (
+            <option key={priority} value={priority}>
+              {priority}
+            </option>
+          ))}
+        </select>
+        {errors.priority ? <span className="tm-error">{errors.priority}</span> : null}
+      </div>
+
+      <div className="flex gap-2">
+        <button className="tm-button" type="submit" disabled={submitting}>
           {submitting ? 'Salvando...' : 'Salvar'}
         </button>
-        <button type="button" onClick={onCancel}>
+        <button className="tm-button-secondary" type="button" onClick={onCancel}>
           Cancelar
         </button>
       </div>

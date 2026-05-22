@@ -1,12 +1,13 @@
 import { useEffect, useReducer } from 'react';
-import { ApiError } from '../services/http-client';
 import { TaskFilters } from '../features/tasks/components/task-filters';
 import { TaskForm } from '../features/tasks/components/task-form';
 import { TaskList } from '../features/tasks/components/task-list';
 import { TaskEditForm } from '../features/tasks/components/task-edit-form';
 import { createTask, listTasks, updateTaskStatus, updateTask } from '../features/tasks/services/task-api';
 import { initialTaskState, taskReducer } from '../features/tasks/state/task-reducer';
+import { ThemeToggle } from '../theme/theme-toggle';
 import type { CreateTaskPayload, TaskStatus, UpdateTaskPayload } from '../types/task';
+import { ApiError } from '../services/http-client';
 
 export const TasksPage = () => {
   const [state, dispatch] = useReducer(taskReducer, initialTaskState);
@@ -28,7 +29,7 @@ export const TasksPage = () => {
 
   useEffect(() => {
     loadTasks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line -- exhaustive-deps rule unavailable in current lint config
   }, [state.filters.priority, state.filters.status, state.filters.date, state.filters.dateType]);
 
   const handleCreateTask = async (payload: CreateTaskPayload) => {
@@ -69,9 +70,14 @@ export const TasksPage = () => {
     : undefined;
 
   return (
-    <main style={{ maxWidth: 900, margin: '32px auto', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Task Management App</h1>
-      <p>Gerencie tarefas do dia a dia com prioridade, status e filtros.</p>
+    <main className="tm-page">
+      <section className="mb-6 flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">Task Management App</h1>
+          <p className="tm-muted">Gerencie tarefas do dia a dia com prioridade, status e filtros.</p>
+        </div>
+        <ThemeToggle />
+      </section>
 
       {!state.editingTaskId ? (
         <TaskForm onCreate={handleCreateTask} />
@@ -92,8 +98,8 @@ export const TasksPage = () => {
         onClear={() => dispatch({ type: 'clear_filters' })}
       />
 
-      {state.loading ? <p>Carregando tarefas...</p> : null}
-      {state.error ? <p style={{ color: 'crimson' }}>{state.error}</p> : null}
+      {state.loading ? <p className="tm-muted mb-3">Carregando tarefas...</p> : null}
+      {state.error ? <p className="tm-error mb-3">{state.error}</p> : null}
 
       <TaskList tasks={state.tasks} onChangeStatus={handleChangeStatus} />
     </main>
