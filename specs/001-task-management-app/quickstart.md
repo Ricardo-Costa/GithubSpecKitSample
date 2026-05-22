@@ -25,9 +25,10 @@
 ### Cenário A — Criar tarefa
 
 1. Abrir a tela de cadastro.
-2. Informar título, descrição, data, prioridade e status.
+2. Informar título, descrição, `dataPrevistaConclusao`, prioridade e status.
 3. Salvar.
 4. Verificar listagem com os dados corretos.
+5. Confirmar `dataConclusaoReal` vazia para tarefa não concluída.
 
 Resultado esperado: tarefa criada e exibida na lista.
 
@@ -44,16 +45,18 @@ Resultado esperado: sistema bloqueia envio e exibe mensagem clara de validação
 1. Selecionar tarefa pendente.
 2. Alterar para em andamento e salvar.
 3. Alterar para concluída e salvar.
+4. Reabrir para pendente ou em andamento.
 
-Resultado esperado: status reflete corretamente na listagem após cada alteração.
+Resultado esperado: ao concluir, `dataConclusaoReal` é preenchida; ao reabrir, `dataConclusaoReal` é limpa.
 
 ### Cenário D — Filtros por prioridade, status e data
 
 1. Aplicar filtro por prioridade.
 2. Aplicar filtro por status.
-3. Aplicar filtro por data.
-4. Combinar filtros.
-5. Limpar filtros.
+3. Aplicar filtro por data escolhendo `dateType=prevista`.
+4. Aplicar filtro por data escolhendo `dateType=real`.
+5. Combinar filtros.
+6. Limpar filtros.
 
 Resultado esperado: listagem respeita critérios ativos; limpeza retorna lista completa.
 
@@ -70,6 +73,22 @@ Resultado esperado: mensagem informativa de nenhum resultado.
 - Filtros retornam resultados consistentes com os critérios selecionados.
 - Nenhum teste automatizado é requisito para esta versão.
 
+## 5.1) Protocolo de medição manual (SC-003)
+
+Objetivo: validar que pelo menos 95% das tarefas são encontradas usando filtros em até 20 segundos.
+
+Passos:
+
+1. Preparar uma base com 20 tarefas contendo combinações variadas de prioridade, status, `dataPrevistaConclusao` e `dataConclusaoReal`.
+2. Executar 20 tentativas de busca com critérios conhecidos (prioridade, status e data com `dateType`).
+3. Cronometrar cada tentativa do momento da aplicação do filtro até a confirmação visual da tarefa esperada.
+4. Registrar resultado como sucesso quando a tarefa correta for encontrada em até 20 segundos.
+5. Calcular taxa de sucesso: sucessos / 20.
+
+Critério de aprovação:
+
+- Taxa de sucesso >= 95%.
+
 ## 6) Registro de validação manual executada
 
 Data: 2026-05-22
@@ -79,5 +98,6 @@ Data: 2026-05-22
 - [x] Listagem de tarefas (`GET /api/v1/tasks`)
 - [x] Atualização de status (`PATCH /api/v1/tasks/:id`)
 - [x] Filtro por status (`GET /api/v1/tasks?status=completed`)
+- [x] Filtro por data com tipo (`GET /api/v1/tasks?date=...&dateType=prevista|real`)
 - [x] Build backend sem erros (`npm run build`)
 - [x] Build frontend sem erros (`npm run build`)

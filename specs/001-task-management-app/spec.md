@@ -8,6 +8,20 @@
 
 **Input**: User description: "Construa uma aplicação que me ajude a gerenciar minhas tarefas. Eu posso criar e acompanhar atividades do dia a dia. As tarefas devem ter título, descrição, data de conclusão, prioridade e status(pendente, em andamento, concluída). Inclua filtros para visualizar tarefas por prioridade, status ou data."
 
+## Clarifications
+
+### Session 2026-05-22
+
+- Q: A tarefa deve ter uma data única ou datas separadas para prazo e conclusão real? → A: Datas separadas: `dataPrevistaConclusao` + `dataConclusaoReal`.
+- Q: Como deve funcionar o filtro por data? → A: Permitir escolher o tipo de data no filtro (`prevista` ou `real`).
+- Q: Ao sair de concluída, como tratar `dataConclusaoReal`? → A: Limpar `dataConclusaoReal` ao sair de `concluída`.
+
+### Convenção de status (mapeamento de domínio)
+
+- `pendente` ↔ `pending`
+- `em andamento` ↔ `in_progress`
+- `concluída` ↔ `completed`
+
 ## User Scenarios & Validation *(mandatory)*
 
 ### User Story 1 - Criar tarefas do dia a dia (Priority: P1)
@@ -16,7 +30,7 @@ Como usuário, quero cadastrar tarefas com informações essenciais para organiz
 
 **Why this priority**: Sem cadastro de tarefas, não existe valor principal do produto.
 
-**Independent Validation**: Criar uma nova tarefa preenchendo título, descrição, data de conclusão, prioridade e status, salvar e confirmar que ela aparece na lista com todos os dados informados.
+**Independent Validation**: Criar uma nova tarefa preenchendo título, descrição, data prevista de conclusão, prioridade e status, salvar e confirmar que ela aparece na lista com os dados informados; confirmar que `dataConclusaoReal` inicia vazia para tarefas não concluídas.
 
 **Acceptance Scenarios**:
 
@@ -36,7 +50,7 @@ Como usuário, quero visualizar e atualizar o status das minhas tarefas para aco
 **Acceptance Scenarios**:
 
 1. **Given** uma tarefa com status pendente, **When** altero para em andamento, **Then** a tarefa passa a exibir status em andamento.
-2. **Given** uma tarefa com status em andamento, **When** altero para concluída, **Then** a tarefa passa a exibir status concluída e mantém sua data de conclusão informada.
+2. **Given** uma tarefa com status em andamento, **When** altero para concluída, **Then** a tarefa passa a exibir status concluída e registra `dataConclusaoReal`.
 
 ---
 
@@ -53,6 +67,7 @@ Como usuário, quero filtrar tarefas por prioridade, status ou data para localiz
 1. **Given** várias tarefas com prioridades diferentes, **When** filtro por prioridade alta, **Then** apenas tarefas de prioridade alta são exibidas.
 2. **Given** várias tarefas com status diferentes, **When** filtro por concluída, **Then** apenas tarefas concluídas são exibidas.
 3. **Given** tarefas com datas de conclusão diferentes, **When** filtro por uma data específica, **Then** apenas tarefas com essa data são exibidas.
+4. **Given** tarefas com data prevista e data real diferentes, **When** seleciono tipo de data no filtro (`prevista` ou `real`) e informo uma data, **Then** a listagem considera apenas o tipo de data escolhido.
 
 ### Edge Cases
 
@@ -60,12 +75,13 @@ Como usuário, quero filtrar tarefas por prioridade, status ou data para localiz
 - O sistema deve manter comportamento previsível quando não existir nenhuma tarefa cadastrada.
 - Ao aplicar um filtro sem correspondência, o sistema deve exibir resultado vazio com mensagem informativa.
 - O sistema deve permitir limpar filtros e retornar à visualização completa sem perda de dados.
+- Ao alterar status de `concluída` para outro valor, o sistema deve limpar `dataConclusaoReal`.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: O sistema MUST permitir criar uma tarefa com título, descrição, data de conclusão, prioridade e status.
+- **FR-001**: O sistema MUST permitir criar uma tarefa com título, descrição, `dataPrevistaConclusao`, prioridade e status.
 - **FR-002**: O sistema MUST exigir título como campo obrigatório no momento de criação.
 - **FR-003**: O sistema MUST exigir prioridade e status como campos obrigatórios no momento de criação.
 - **FR-004**: O sistema MUST aceitar apenas os status: pendente, em andamento e concluída.
@@ -74,14 +90,16 @@ Como usuário, quero filtrar tarefas por prioridade, status ou data para localiz
 - **FR-007**: O sistema MUST permitir atualizar o status de uma tarefa a qualquer momento.
 - **FR-008**: O sistema MUST permitir filtrar tarefas por prioridade.
 - **FR-009**: O sistema MUST permitir filtrar tarefas por status.
-- **FR-010**: O sistema MUST permitir filtrar tarefas por data de conclusão.
+- **FR-010**: O sistema MUST permitir filtrar tarefas por data escolhendo o tipo de data (`dataPrevistaConclusao` ou `dataConclusaoReal`).
 - **FR-011**: O sistema MUST permitir limpar os filtros ativos e retornar à lista completa.
 - **FR-012**: O sistema MUST apresentar mensagens claras de validação quando dados obrigatórios estiverem ausentes ou inválidos.
+- **FR-013**: O sistema MUST manter `dataConclusaoReal` vazia para tarefas com status diferente de concluída, inclusive ao reabrir tarefa já concluída.
+- **FR-014**: O sistema MUST preencher `dataConclusaoReal` quando uma tarefa for marcada como concluída.
 
 ### Key Entities *(include if feature involves data)*
 
-- **Task**: Representa uma atividade do usuário; inclui título, descrição, data de conclusão, prioridade e status.
-- **TaskFilter**: Representa critérios de visualização aplicados na lista; inclui prioridade, status e data de conclusão.
+- **Task**: Representa uma atividade do usuário; inclui título, descrição, `dataPrevistaConclusao`, `dataConclusaoReal`, prioridade e status.
+- **TaskFilter**: Representa critérios de visualização aplicados na lista; inclui prioridade, status, data e tipo de data (`prevista` ou `real`).
 
 ## Success Criteria *(mandatory)*
 

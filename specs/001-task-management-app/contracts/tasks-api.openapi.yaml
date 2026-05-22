@@ -9,6 +9,12 @@ paths:
   /tasks:
     get:
       summary: Listar tarefas com filtros opcionais
+      description: |
+        Regras de filtro por data:
+        - `date` e `dateType` devem ser enviados juntos.
+        - `dateType=prevista` aplica o filtro em `dataPrevistaConclusao`.
+        - `dateType=real` aplica o filtro em `dataConclusaoReal`.
+        - Enviar apenas um dos campos (`date` ou `dateType`) deve retornar 400.
       parameters:
         - in: query
           name: priority
@@ -23,7 +29,13 @@ paths:
           schema:
             type: string
             format: date
-            description: Data de conclusão planejada (YYYY-MM-DD)
+            description: Data usada no filtro (YYYY-MM-DD). Requer `dateType`.
+        - in: query
+          name: dateType
+          schema:
+            type: string
+            enum: [prevista, real]
+            description: Define qual data deve ser filtrada (`dataPrevistaConclusao` ou `dataConclusaoReal`). Requer `date`.
       responses:
         '200':
           description: Lista de tarefas retornada com sucesso
@@ -36,6 +48,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Task'
+        '400':
+          description: Filtros inválidos (inclui uso parcial de `date`/`dateType`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       summary: Criar nova tarefa
       requestBody:
@@ -136,6 +154,11 @@ components:
     TaskStatus:
       type: string
       enum: [pending, in_progress, completed]
+      description: |
+        Mapeamento de domínio:
+        - pending = pendente
+        - in_progress = em andamento
+        - completed = concluída
 
     TaskPriority:
       type: string
@@ -158,11 +181,11 @@ components:
           type: string
         description:
           type: string
-        dueDate:
+        dataPrevistaConclusao:
           type: string
           format: date
           nullable: true
-        completedAt:
+        dataConclusaoReal:
           type: string
           format: date-time
           nullable: true
@@ -190,7 +213,7 @@ components:
           minLength: 1
         description:
           type: string
-        dueDate:
+        dataPrevistaConclusao:
           type: string
           format: date
           nullable: true
@@ -207,7 +230,7 @@ components:
           minLength: 1
         description:
           type: string
-        dueDate:
+        dataPrevistaConclusao:
           type: string
           format: date
           nullable: true

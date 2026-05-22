@@ -2,51 +2,59 @@
 
 ## Decision 1: Arquitetura da aplicação
 
-- **Decision**: Usar arquitetura web separada em frontend (TypeScript + React) e backend (TypeScript + Express), com estrutura pequena e orientada a responsabilidades.
-- **Rationale**: Atende ao requisito explícito do usuário, mantém código legível e facilita evolução incremental do projeto.
+- **Decision**: Manter arquitetura web separada (frontend TypeScript + React, backend TypeScript + Express) com organização por responsabilidade.
+- **Rationale**: Preserva simplicidade e legibilidade, alinhando com clean code para um projeto pequeno.
 - **Alternatives considered**:
-  - Monólito único sem separação frontend/backend (rejeitado por acoplamento).
-  - Arquitetura avançada (DDD/CQRS) (rejeitado por excesso de complexidade para escopo inicial).
+  - Monólito sem separação (rejeitado por acoplamento).
+  - Arquitetura avançada com camadas extras (rejeitado por complexidade prematura).
 
-## Decision 2: Gerenciamento de estado no frontend
+## Decision 2: Modelo de datas da tarefa
 
-- **Decision**: Modelar domínio com tipos explícitos (`Task`, `TaskStatus`, `TaskPriority`, `TaskFilter`) e usar `useReducer` para operações de CRUD e filtros.
-- **Rationale**: Estado previsível, transições claras e baixo acoplamento para app pequeno.
+- **Decision**: Adotar dois campos distintos: `dataPrevistaConclusao` (data de planejamento) e `dataConclusaoReal` (data/hora efetiva).
+- **Rationale**: Evita ambiguidade semântica e suporta acompanhamento operacional e histórico real.
 - **Alternatives considered**:
-  - `useState` disperso em múltiplos componentes (rejeitado por risco de lógica duplicada).
-  - Redux/MobX (rejeitado por sobrecarga inicial).
+  - Campo único de data (rejeitado por ambiguidade).
+  - Duas datas sem distinção de papel (rejeitado por inconsistência de uso).
 
-## Decision 3: Estratégia de filtros
+## Decision 3: Invariante status-data
 
-- **Decision**: Calcular tarefas filtradas como estado derivado a partir da lista base e critérios ativos (prioridade, status e data).
-- **Rationale**: Evita inconsistências e duplicação de estado.
+- **Decision**: Quando status vira `concluída`, preencher `dataConclusaoReal`; quando sai de `concluída`, limpar `dataConclusaoReal`.
+- **Rationale**: Mantém consistência de domínio e reduz estados inválidos.
 - **Alternatives considered**:
-  - Persistir lista filtrada em estado separado (rejeitado por risco de dessíncronia).
+  - Manter data real após reabertura (rejeitado por semântica inconsistente).
+  - Proibir reabertura (rejeitado por restringir fluxo do usuário sem necessidade).
 
-## Decision 4: Contrato e validação de API
+## Decision 4: Contrato de filtros por data
 
-- **Decision**: API REST com endpoints de CRUD e filtros via query string, validação de entrada com `zod` no backend.
-- **Rationale**: Contratos explícitos, erros previsíveis e integração simples com frontend.
+- **Decision**: Filtro por data com seleção explícita de tipo (`prevista` ou `real`) e valor de data.
+- **Rationale**: Comportamento previsível e sem conflito entre critérios de data.
 - **Alternatives considered**:
-  - Validação manual ad-hoc (rejeitado por baixa consistência).
-  - GraphQL (rejeitado por complexidade desnecessária para v1).
+  - Filtro por data sem tipo (rejeitado por ambiguidade).
+  - Dois filtros de data separados simultâneos (rejeitado por complexidade de UX para v1).
 
-## Decision 5: Persistência em SQLite
+## Decision 5: API e validação
 
-- **Decision**: Usar SQLite com tabela única `tasks`, constraints para enums (`status`, `priority`) e índices para filtros principais.
-- **Rationale**: Simplicidade operacional, boa performance para uso individual e integridade de dados no banco.
+- **Decision**: Manter API REST para CRUD e filtros, com validações de payload/query no backend usando `zod`.
+- **Rationale**: Contratos explícitos e tratamento consistente de erros.
 - **Alternatives considered**:
-  - ORM completo (Prisma/TypeORM) (rejeitado por overhead inicial).
-  - Tabelas auxiliares para enums (rejeitado por complexidade sem ganho relevante no escopo).
+  - Validação ad-hoc em cada endpoint (rejeitado por duplicação).
+  - GraphQL (rejeitado por escopo).
 
-## Decision 6: Qualidade sem testes automatizados nesta versão
+## Decision 6: Persistência em SQLite
 
-- **Decision**: Não incluir testes automatizados na versão atual; adotar validação manual padronizada em `quickstart.md`.
-- **Rationale**: Alinha com solicitação do usuário e com a constituição (projeto pequeno, foco em iteração rápida e clean code).
+- **Decision**: Tabela única `tasks` com constraints de enums e índices para filtros de `priority`, `status`, `dataPrevistaConclusao` e `dataConclusaoReal`.
+- **Rationale**: Suficiente para uso individual com bom custo-benefício operacional.
 - **Alternatives considered**:
-  - TDD completo desde v1 (rejeitado por não ser requisito desta etapa).
-  - Ausência de validação estruturada (rejeitado por risco de regressão funcional).
+  - ORM completo (rejeitado por overhead inicial).
+  - Normalização adicional para enums (rejeitado para manter simplicidade).
+
+## Decision 7: Estratégia de qualidade na v1
+
+- **Decision**: Sem testes automatizados obrigatórios; validação manual estruturada em `quickstart.md`.
+- **Rationale**: Alinha com constituição e foco em entrega incremental simples.
+- **Alternatives considered**:
+  - TDD obrigatório nesta etapa (rejeitado por não ser requisito da v1).
 
 ## Resolução de clarificações técnicas
 
-Nenhum item ficou como NEEDS CLARIFICATION após pesquisa e decisões acima.
+Todos os pontos críticos do domínio de datas e filtros foram esclarecidos no `spec.md`.

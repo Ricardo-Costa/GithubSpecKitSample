@@ -1,6 +1,6 @@
 # Implementation Plan: Task Management App
 
-**Branch**: `[main]` | **Date**: 2026-05-21 | **Spec**: [specs/001-task-management-app/spec.md](specs/001-task-management-app/spec.md)
+**Branch**: `[001-task-management-app]` | **Date**: 2026-05-22 | **Spec**: [specs/001-task-management-app/spec.md](specs/001-task-management-app/spec.md)
 
 **Input**: Feature specification from `/specs/001-task-management-app/spec.md`
 
@@ -8,37 +8,32 @@
 
 ## Summary
 
-Construir uma aplicação pequena para gestão de tarefas do dia a dia com criação,
-acompanhamento de status e filtros por prioridade, status e data. A solução será
-dividida em frontend TypeScript + React e backend TypeScript + Express, com
-persistência em SQLite. A versão inicial prioriza clean code, simplicidade,
-contratos explícitos e validação manual (sem testes automatizados obrigatórios).
+Construir uma aplicação web pequena para gerenciar tarefas do dia a dia com
+criação, acompanhamento de status e filtros. A solução usa frontend em
+TypeScript + React e backend em TypeScript + Express com persistência em
+SQLite. Após clarificações, o domínio passa a usar duas datas: uma data
+prevista (`dataPrevistaConclusao`) e uma data real (`dataConclusaoReal`), com
+filtro por data baseado em tipo (`prevista` ou `real`).
 
 ## Technical Context
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
-
 **Language/Version**: TypeScript 5.x (frontend e backend)
 
-**Primary Dependencies**: React 18, Express 4, SQLite 3, `better-sqlite3`, `zod`
+**Primary Dependencies**: React 18, Express 4, SQLite, `zod`, Vite
 
-**Storage**: SQLite (arquivo local `.db`)
+**Storage**: SQLite (arquivo local)
 
-**Testing**: Sem testes automatizados nesta versão; validação manual guiada por `quickstart.md`
+**Testing**: Sem testes automatizados nesta versão; validação manual via cenários do quickstart
 
-**Target Platform**: Navegador moderno no frontend + servidor Node.js em Linux/macOS/Windows
+**Target Platform**: Navegador moderno + Node.js 20+
 
 **Project Type**: Web application (frontend + backend)
 
-**Performance Goals**: Listagem e filtragem com resposta perceptível em até 500ms para até 5.000 tarefas
+**Performance Goals**: Listagem e filtragem em até 500ms para até 5.000 tarefas
 
-**Constraints**: Projeto pequeno e simples; baixo número de dependências; sem testes automatizados obrigatórios
+**Constraints**: Projeto pequeno e simples; baixo acoplamento; sem testes automatizados obrigatórios nesta fase
 
-**Scale/Scope**: Uso individual; CRUD de tarefas e filtros (prioridade/status/data) na versão inicial
+**Scale/Scope**: Uso individual; CRUD de tarefas + filtros por prioridade/status/data com tipo de data
 
 ## Constitution Check
 
@@ -46,19 +41,19 @@ contratos explícitos e validação manual (sem testes automatizados obrigatóri
 
 ### Gate Check (Pre-Phase 0)
 
-- ✅ Escopo pequeno e incremental (CRUD + filtros apenas).
-- ✅ Prioridade em legibilidade (camadas simples e nomes explícitos).
-- ✅ Responsabilidade única planejada por módulo (`routes`, `services`, `repositories`, UI por feature).
-- ✅ Contratos explícitos com validação de entrada (`zod`) e erros padronizados.
-- ✅ Qualidade por validação manual documentada (sem testes automatizados nesta versão).
-- ✅ Dependências mínimas e justificadas para produtividade e clareza.
+- ✅ Escopo continua pequeno (CRUD + filtros) e incremental.
+- ✅ Design prioriza legibilidade e contratos explícitos.
+- ✅ Responsabilidades separadas em camadas simples (`routes`, `services`, `repositories`, UI por feature).
+- ✅ Regras de data e status são explícitas e verificáveis (`dataPrevistaConclusao`, `dataConclusaoReal`, `dateType`).
+- ✅ Qualidade definida por validação manual e checklist, sem gate de testes automatizados.
+- ✅ Dependências mínimas e justificadas para o domínio atual.
 
 ### Gate Check (Post-Phase 1)
 
-- ✅ `research.md` resolve decisões técnicas e alternativas.
-- ✅ `data-model.md` define entidades, regras e transições de estado.
-- ✅ `contracts/tasks-api.openapi.yaml` explicita interface backend.
-- ✅ `quickstart.md` define fluxo de execução e validação manual fim-a-fim.
+- ✅ `research.md` atualizado com decisões de datas e filtro por tipo.
+- ✅ `data-model.md` descreve invariantes de status/data e filtro com `dateType`.
+- ✅ `contracts/tasks-api.openapi.yaml` atualizado para filtros com `dateType`.
+- ✅ `quickstart.md` atualizado com validação manual dos cenários de data.
 
 ## Project Structure
 
@@ -105,13 +100,13 @@ database/
 └── schema.sql
 ```
 
-**Structure Decision**: Estrutura de aplicação web com separação clara entre
-frontend e backend, mantendo camadas simples e focadas por responsabilidade.
-Sem diretórios de testes automatizados nesta fase inicial.
+**Structure Decision**: Estrutura web com frontend e backend separados, mantendo
+camadas enxutas e foco em responsabilidade única. O contrato de filtros por
+data é implementado no backend e consumido por uma UI com seletor de `dateType`.
 
 ## Complexity Tracking
 
-> Sem violações de constituição identificadas para este plano.
+> Sem violações de constituição identificadas.
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
