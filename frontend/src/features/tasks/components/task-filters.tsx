@@ -1,4 +1,4 @@
-import type { TaskFilter, TaskPriority, TaskStatus } from '../../../types/task';
+import type { TaskFilter, TaskPriority, TaskStatus, TaskDateType } from '../../../types/task';
 
 interface TaskFiltersProps {
   filters: TaskFilter;
@@ -7,7 +7,7 @@ interface TaskFiltersProps {
 }
 
 export const TaskFilters = ({ filters, onChange, onClear }: TaskFiltersProps) => (
-  <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+  <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
     <select
       value={filters.priority ?? ''}
       onChange={(event) =>
@@ -30,6 +30,17 @@ export const TaskFilters = ({ filters, onChange, onClear }: TaskFiltersProps) =>
       <option value="pending">pending</option>
       <option value="in_progress">in_progress</option>
       <option value="completed">completed</option>
+    </select>
+
+    <select
+      value={filters.dateType ?? ''}
+      onChange={(event) =>
+        onChange({ dateType: (event.target.value || undefined) as TaskDateType | undefined })
+      }
+    >
+      <option value="">Tipo de data</option>
+      <option value="prevista">data prevista</option>
+      <option value="real">data conclusão real</option>
     </select>
 
     <input

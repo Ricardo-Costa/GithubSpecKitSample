@@ -5,6 +5,7 @@ export interface TaskState {
   filters: TaskFilter;
   loading: boolean;
   error: string | null;
+  editingTaskId: number | null;
 }
 
 export type TaskAction =
@@ -14,13 +15,15 @@ export type TaskAction =
   | { type: 'set_loading'; payload: boolean }
   | { type: 'set_error'; payload: string | null }
   | { type: 'set_filters'; payload: Partial<TaskFilter> }
-  | { type: 'clear_filters' };
+  | { type: 'clear_filters' }
+  | { type: 'set_editing'; payload: number | null };
 
 export const initialTaskState: TaskState = {
   tasks: [],
   filters: {},
   loading: false,
-  error: null
+  error: null,
+  editingTaskId: null
 };
 
 export const taskReducer = (state: TaskState, action: TaskAction): TaskState => {
@@ -34,7 +37,8 @@ export const taskReducer = (state: TaskState, action: TaskAction): TaskState => 
         ...state,
         tasks: state.tasks.map((task) =>
           task.id === action.payload.id ? action.payload : task
-        )
+        ),
+        editingTaskId: null
       };
     case 'set_loading':
       return { ...state, loading: action.payload };
@@ -44,6 +48,8 @@ export const taskReducer = (state: TaskState, action: TaskAction): TaskState => 
       return { ...state, filters: { ...state.filters, ...action.payload } };
     case 'clear_filters':
       return { ...state, filters: {} };
+    case 'set_editing':
+      return { ...state, editingTaskId: action.payload };
     default:
       return state;
   }

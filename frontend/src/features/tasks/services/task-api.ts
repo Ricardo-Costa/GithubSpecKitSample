@@ -1,5 +1,5 @@
 import { request } from '../../../services/http-client';
-import type { CreateTaskPayload, Task, TaskFilter, TaskStatus } from '../../../types/task';
+import type { CreateTaskPayload, Task, TaskFilter, TaskStatus, UpdateTaskPayload } from '../../../types/task';
 
 interface ListTasksResponse {
   items: Task[];
@@ -18,6 +18,10 @@ const toQueryString = (filter: TaskFilter): string => {
 
   if (filter.date) {
     params.set('date', filter.date);
+  }
+
+  if (filter.dateType) {
+    params.set('dateType', filter.dateType);
   }
 
   const query = params.toString();
@@ -39,4 +43,10 @@ export const updateTaskStatus = async (taskId: number, status: TaskStatus): Prom
   request<Task>(`/tasks/${taskId}`, {
     method: 'PATCH',
     body: JSON.stringify({ status })
+  });
+
+export const updateTask = async (taskId: number, payload: UpdateTaskPayload): Promise<Task> =>
+  request<Task>(`/tasks/${taskId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload)
   });

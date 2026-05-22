@@ -19,7 +19,10 @@ export const TaskList = ({ tasks, onChangeStatus }: TaskListProps) => {
           <h4 style={{ margin: '0 0 6px 0' }}>{task.title}</h4>
           <p style={{ margin: '0 0 6px 0' }}>{task.description}</p>
           <small style={{ display: 'block' }}>prioridade: {task.priority}</small>
-          <small style={{ display: 'block' }}>data: {task.dueDate ?? 'não definida'}</small>
+          <small style={{ display: 'block' }}>data prevista: {task.dataPrevistaConclusao ?? 'não definida'}</small>
+          {task.dataConclusaoReal && (
+            <small style={{ display: 'block' }}>data conclusão: {task.dataConclusaoReal}</small>
+          )}
           <div style={{ marginTop: 8 }}>
             <TaskStatusSelect task={task} onChangeStatus={onChangeStatus} />
           </div>

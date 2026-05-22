@@ -25,8 +25,17 @@ export const errorHandler = (
   _next: NextFunction
 ): void => {
   if (error instanceof AppError) {
+    const code =
+      error.statusCode === 400
+        ? 'BAD_REQUEST'
+        : error.statusCode === 404
+          ? 'NOT_FOUND'
+          : error.statusCode >= 500
+            ? 'INTERNAL_ERROR'
+            : 'REQUEST_ERROR';
+
     response.status(error.statusCode).json({
-      code: error.statusCode >= 500 ? 'INTERNAL_ERROR' : 'BAD_REQUEST',
+      code,
       message: error.message,
       details: error.details
     });

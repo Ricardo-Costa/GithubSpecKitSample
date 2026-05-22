@@ -4,7 +4,7 @@ export interface TaskFormErrors {
   title?: string;
   priority?: string;
   status?: string;
-  dueDate?: string;
+  dataPrevistaConclusao?: string;
 }
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -24,8 +24,8 @@ export const validateTaskForm = (payload: CreateTaskPayload): TaskFormErrors => 
     errors.status = 'Status é obrigatório.';
   }
 
-  if (payload.dueDate && !dateRegex.test(payload.dueDate)) {
-    errors.dueDate = 'Data deve estar no formato YYYY-MM-DD.';
+  if (payload.dataPrevistaConclusao && !dateRegex.test(payload.dataPrevistaConclusao)) {
+    errors.dataPrevistaConclusao = 'Data deve estar no formato YYYY-MM-DD.';
   }
 
   return errors;

@@ -5,6 +5,7 @@ import { createTaskSchema, taskFilterSchema, taskIdSchema, updateTaskSchema } fr
 import { CreateTaskService } from '../services/create-task.service.js';
 import { ListTasksService } from '../services/list-tasks.service.js';
 import { UpdateTaskStatusService } from '../services/update-task-status.service.js';
+import { UpdateTaskService } from '../services/update-task.service.js';
 import { TaskRepository } from '../repositories/task.repository.js';
 
 export class TaskController {
@@ -12,6 +13,7 @@ export class TaskController {
     private readonly createTaskService: CreateTaskService,
     private readonly listTasksService: ListTasksService,
     private readonly updateTaskStatusService: UpdateTaskStatusService,
+    private readonly updateTaskService: UpdateTaskService,
     private readonly repository: TaskRepository
   ) {}
 
@@ -67,7 +69,10 @@ export class TaskController {
     try {
       const { id } = taskIdSchema.parse(request.params);
       const payload = updateTaskSchema.parse(request.body);
-      const updatedTask = this.updateTaskStatusService.execute(id, payload);
+      const updatedTask =
+        Object.keys(payload).length === 1 && payload.status
+          ? this.updateTaskStatusService.execute(id, payload.status)
+          : this.updateTaskService.execute(id, payload);
 
       if (!updatedTask) {
         next(new AppError(404, 'Task not found'));

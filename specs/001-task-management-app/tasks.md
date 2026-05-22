@@ -26,16 +26,16 @@
 
 **⚠️ CRITICAL**: Nenhuma user story deve iniciar antes desta fase
 
-- [ ] T006 Atualizar schema SQLite para `data_prevista_conclusao` e `data_conclusao_real` em database/schema.sql
-- [ ] T007 [P] Atualizar inicialização de banco e carregamento de schema em backend/src/db/sqlite.ts
-- [ ] T008 [P] Atualizar tipos de domínio (`Task`, `TaskFilter`) com `dateType` em backend/src/types/task.ts
-- [ ] T009 [P] Atualizar tipos equivalentes do frontend em frontend/src/types/task.ts
-- [ ] T010 Implementar validações Zod para `dateType`, `date` e invariantes de status/data em backend/src/validators/task.validator.ts
-- [ ] T011 Atualizar shape de erro para mensagens consistentes em backend/src/middlewares/error-handler.ts
-- [ ] T012 Validar bootstrap da aplicação e rotas base em backend/src/app/create-app.ts
-- [ ] T013 Atualizar cliente HTTP compartilhado e erro de API em frontend/src/services/http-client.ts
+- [X] T006 Atualizar schema SQLite para `data_prevista_conclusao` e `data_conclusao_real` em database/schema.sql
+- [X] T007 [P] Atualizar inicialização de banco e carregamento de schema em backend/src/db/sqlite.ts
+- [X] T008 [P] Atualizar tipos de domínio (`Task`, `TaskFilter`) com `dateType` em backend/src/types/task.ts
+- [X] T009 [P] Atualizar tipos equivalentes do frontend em frontend/src/types/task.ts
+- [X] T010 Implementar validações Zod para `dateType`, `date` e invariantes de status/data em backend/src/validators/task.validator.ts
+- [X] T011 Atualizar shape de erro para mensagens consistentes em backend/src/middlewares/error-handler.ts
+- [X] T012 Validar bootstrap da aplicação e rotas base em backend/src/app/create-app.ts
+- [X] T013 Atualizar cliente HTTP compartilhado e erro de API em frontend/src/services/http-client.ts
 
-**Checkpoint**: Fundação pronta para implementação de histórias
+**Checkpoint**: Fundação pronta para implementação de histórias ✅
 
 ---
 
@@ -47,18 +47,18 @@
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Implementar criação e listagem com novos campos no repositório em backend/src/repositories/task.repository.ts
-- [ ] T015 [US1] Implementar regra de criação de tarefa em backend/src/services/create-task.service.ts
-- [ ] T016 [US1] Ajustar regra de listagem base em backend/src/services/list-tasks.service.ts
-- [ ] T017 [US1] Atualizar controller para payload/response de criação e listagem em backend/src/controllers/task.controller.ts
-- [ ] T018 [US1] Atualizar endpoints `POST /tasks` e `GET /tasks` em backend/src/routes/task.routes.ts
-- [ ] T019 [P] [US1] Atualizar serialização de criação/listagem no frontend em frontend/src/features/tasks/services/task-api.ts
-- [ ] T020 [P] [US1] Atualizar formulário para `dataPrevistaConclusao` em frontend/src/features/tasks/components/task-form.tsx
-- [ ] T021 [US1] Atualizar validação de formulário para novos campos em frontend/src/features/tasks/utils/task-form-validation.ts
-- [ ] T022 [US1] Atualizar reducer para criação/listagem com novos campos em frontend/src/features/tasks/state/task-reducer.ts
-- [ ] T023 [US1] Atualizar página de tarefas para integração de criação/listagem em frontend/src/pages/tasks-page.tsx
+- [X] T014 [P] [US1] Implementar criação e listagem com novos campos no repositório em backend/src/repositories/task.repository.ts
+- [X] T015 [US1] Implementar regra de criação de tarefa em backend/src/services/create-task.service.ts
+- [X] T016 [US1] Ajustar regra de listagem base em backend/src/services/list-tasks.service.ts
+- [X] T017 [US1] Atualizar controller para payload/response de criação e listagem em backend/src/controllers/task.controller.ts
+- [X] T018 [US1] Atualizar endpoints `POST /tasks` e `GET /tasks` em backend/src/routes/task.routes.ts
+- [X] T019 [P] [US1] Atualizar serialização de criação/listagem no frontend em frontend/src/features/tasks/services/task-api.ts
+- [X] T020 [P] [US1] Atualizar formulário para `dataPrevistaConclusao` em frontend/src/features/tasks/components/task-form.tsx
+- [X] T021 [US1] Atualizar validação de formulário para novos campos em frontend/src/features/tasks/utils/task-form-validation.ts
+- [X] T022 [US1] Atualizar reducer para criação/listagem com novos campos em frontend/src/features/tasks/state/task-reducer.ts
+- [X] T023 [US1] Atualizar página de tarefas para integração de criação/listagem em frontend/src/pages/tasks-page.tsx
 
-**Checkpoint**: US1 funcional e validável isoladamente
+**Checkpoint**: US1 funcional e validável isoladamente ✅
 
 ---
 
@@ -70,19 +70,19 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [US2] Implementar regra de transição de status com invariante status-data no repositório em backend/src/repositories/task.repository.ts
-- [ ] T025 [US2] Ajustar serviço de atualização de status em backend/src/services/update-task-status.service.ts
-- [ ] T026 [US2] Ajustar validações de update para regras de reabertura em backend/src/validators/task.validator.ts
-- [ ] T027 [US2] Atualizar controller para respostas de atualização coerentes em backend/src/controllers/task.controller.ts
-- [ ] T028 [US2] Validar endpoint `PATCH /tasks/:id` em backend/src/routes/task.routes.ts
-- [ ] T029 [P] [US2] Atualizar chamada de atualização de status no frontend em frontend/src/features/tasks/services/task-api.ts
-- [ ] T030 [P] [US2] Ajustar seletor de status na lista em frontend/src/features/tasks/components/task-status-select.tsx
-- [ ] T031 [US2] Atualizar renderização de campos de progresso (incluindo `dataConclusaoReal`) em frontend/src/features/tasks/components/task-list.tsx
-- [ ] T032 [US2] Ajustar integração de atualização de status e feedback de erro em frontend/src/pages/tasks-page.tsx
-- [ ] T033 [US2] Implementar edição completa de tarefa (título, descrição, prioridade, `dataPrevistaConclusao`) no backend em backend/src/services/update-task.service.ts e backend/src/routes/task.routes.ts
-- [ ] T034 [US2] Implementar fluxo de edição completa no frontend em frontend/src/features/tasks/components/task-edit-form.tsx e frontend/src/features/tasks/services/task-api.ts
+- [X] T024 [US2] Implementar regra de transição de status com invariante status-data no repositório em backend/src/repositories/task.repository.ts
+- [X] T025 [US2] Ajustar serviço de atualização de status em backend/src/services/update-task-status.service.ts
+- [X] T026 [US2] Ajustar validações de update para regras de reabertura em backend/src/validators/task.validator.ts
+- [X] T027 [US2] Atualizar controller para respostas de atualização coerentes em backend/src/controllers/task.controller.ts
+- [X] T028 [US2] Validar endpoint `PATCH /tasks/:id` em backend/src/routes/task.routes.ts
+- [X] T029 [P] [US2] Atualizar chamada de atualização de status no frontend em frontend/src/features/tasks/services/task-api.ts
+- [X] T030 [P] [US2] Ajustar seletor de status na lista em frontend/src/features/tasks/components/task-status-select.tsx
+- [X] T031 [US2] Atualizar renderização de campos de progresso (incluindo `dataConclusaoReal`) em frontend/src/features/tasks/components/task-list.tsx
+- [X] T032 [US2] Ajustar integração de atualização de status e feedback de erro em frontend/src/pages/tasks-page.tsx
+- [X] T033 [US2] Implementar edição completa de tarefa (título, descrição, prioridade, `dataPrevistaConclusao`) no backend em backend/src/services/update-task.service.ts e backend/src/routes/task.routes.ts
+- [X] T034 [US2] Implementar fluxo de edição completa no frontend em frontend/src/features/tasks/components/task-edit-form.tsx e frontend/src/features/tasks/services/task-api.ts
 
-**Checkpoint**: US1 e US2 funcionais e validáveis independentemente
+**Checkpoint**: US1 e US2 funcionais e validáveis independentemente ✅
 
 ---
 
@@ -94,18 +94,18 @@
 
 ### Implementation for User Story 3
 
-- [ ] T035 [US3] Implementar filtro por `dateType` (`prevista`/`real`) no repositório em backend/src/repositories/task.repository.ts
-- [ ] T036 [US3] Implementar validação de query (`date`, `dateType`) no backend em backend/src/validators/task.validator.ts
-- [ ] T037 [US3] Ajustar serviço de listagem para filtros compostos em backend/src/services/list-tasks.service.ts
-- [ ] T038 [US3] Ajustar parsing de query params no controller em backend/src/controllers/task.controller.ts
-- [ ] T039 [P] [US3] Implementar UI de filtro com seletor de tipo de data em frontend/src/features/tasks/components/task-filters.tsx
-- [ ] T040 [P] [US3] Ajustar serialização de filtros (`date`, `dateType`) em frontend/src/features/tasks/services/task-api.ts
-- [ ] T041 [US3] Atualizar estado de filtros e limpeza no reducer em frontend/src/features/tasks/state/task-reducer.ts
-- [ ] T042 [US3] Ajustar exibição de estado vazio para cenário sem correspondência em frontend/src/features/tasks/components/task-list-empty-state.tsx
-- [ ] T043 [US3] Integrar fluxo completo de filtros na página principal em frontend/src/pages/tasks-page.tsx
+- [X] T035 [US3] Implementar filtro por `dateType` (`prevista`/`real`) no repositório em backend/src/repositories/task.repository.ts
+- [X] T036 [US3] Implementar validação de query (`date`, `dateType`) no backend em backend/src/validators/task.validator.ts
+- [X] T037 [US3] Ajustar serviço de listagem para filtros compostos em backend/src/services/list-tasks.service.ts
+- [X] T038 [US3] Ajustar parsing de query params no controller em backend/src/controllers/task.controller.ts
+- [X] T039 [P] [US3] Implementar UI de filtro com seletor de tipo de data em frontend/src/features/tasks/components/task-filters.tsx
+- [X] T040 [P] [US3] Ajustar serialização de filtros (`date`, `dateType`) em frontend/src/features/tasks/services/task-api.ts
+- [X] T041 [US3] Atualizar estado de filtros e limpeza no reducer em frontend/src/features/tasks/state/task-reducer.ts
+- [X] T042 [US3] Ajustar exibição de estado vazio para cenário sem correspondência em frontend/src/features/tasks/components/task-list-empty-state.tsx
+- [X] T043 [US3] Integrar fluxo completo de filtros na página principal em frontend/src/pages/tasks-page.tsx
 - [ ] T044 [US3] Definir protocolo de medição manual para SC-003 (95% em até 20s) em specs/001-task-management-app/quickstart.md
 
-**Checkpoint**: Todas as user stories funcionais e validáveis
+**Checkpoint**: Todas as user stories funcionais e validáveis ✅
 
 ---
 

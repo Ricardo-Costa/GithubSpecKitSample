@@ -3,9 +3,10 @@ import { ApiError } from '../services/http-client';
 import { TaskFilters } from '../features/tasks/components/task-filters';
 import { TaskForm } from '../features/tasks/components/task-form';
 import { TaskList } from '../features/tasks/components/task-list';
-import { createTask, listTasks, updateTaskStatus } from '../features/tasks/services/task-api';
+import { TaskEditForm } from '../features/tasks/components/task-edit-form';
+import { createTask, listTasks, updateTaskStatus, updateTask } from '../features/tasks/services/task-api';
 import { initialTaskState, taskReducer } from '../features/tasks/state/task-reducer';
-import type { CreateTaskPayload, TaskStatus } from '../types/task';
+import type { CreateTaskPayload, TaskStatus, UpdateTaskPayload } from '../types/task';
 
 export const TasksPage = () => {
   const [state, dispatch] = useReducer(taskReducer, initialTaskState);
@@ -28,7 +29,7 @@ export const TasksPage = () => {
   useEffect(() => {
     loadTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.filters.priority, state.filters.status, state.filters.date]);
+  }, [state.filters.priority, state.filters.status, state.filters.date, state.filters.dateType]);
 
   const handleCreateTask = async (payload: CreateTaskPayload) => {
     try {
@@ -52,12 +53,38 @@ export const TasksPage = () => {
     }
   };
 
+  const handleEditTask = async (taskId: number, payload: UpdateTaskPayload) => {
+    try {
+      const updatedTask = await updateTask(taskId, payload);
+      dispatch({ type: 'update_task', payload: updatedTask });
+      dispatch({ type: 'set_error', payload: null });
+    } catch (error) {
+      const message = error instanceof ApiError ? error.message : 'Falha ao editar tarefa.';
+      dispatch({ type: 'set_error', payload: message });
+    }
+  };
+
+  const editingTask = state.editingTaskId
+    ? state.tasks.find((task) => task.id === state.editingTaskId)
+    : undefined;
+
   return (
     <main style={{ maxWidth: 900, margin: '32px auto', fontFamily: 'Arial, sans-serif' }}>
       <h1>Task Management App</h1>
       <p>Gerencie tarefas do dia a dia com prioridade, status e filtros.</p>
 
-      <TaskForm onCreate={handleCreateTask} />
+      {!state.editingTaskId ? (
+        <TaskForm onCreate={handleCreateTask} />
+      ) : editingTask ? (
+        <TaskEditForm
+          title={editingTask.title}
+          description={editingTask.description}
+          dataPrevistaConclusao={editingTask.dataPrevistaConclusao}
+          priority={editingTask.priority}
+          onSubmit={(payload) => handleEditTask(editingTask.id, payload)}
+          onCancel={() => dispatch({ type: 'set_editing', payload: null })}
+        />
+      ) : null}
 
       <TaskFilters
         filters={state.filters}

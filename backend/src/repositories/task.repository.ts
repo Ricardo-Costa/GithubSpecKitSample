@@ -5,10 +5,10 @@ interface TaskRow {
   id: number;
   title: string;
   description: string;
-  due_date: string | null;
+  data_prevista_conclusao: string | null;
   priority: Task['priority'];
   status: Task['status'];
-  completed_at: string | null;
+  data_conclusao_real: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -17,10 +17,10 @@ const mapTaskRow = (row: TaskRow): Task => ({
   id: row.id,
   title: row.title,
   description: row.description,
-  dueDate: row.due_date,
+  dataPrevistaConclusao: row.data_prevista_conclusao,
   priority: row.priority,
   status: row.status,
-  completedAt: row.completed_at,
+  dataConclusaoReal: row.data_conclusao_real,
   createdAt: row.created_at,
   updatedAt: row.updated_at
 });
@@ -28,15 +28,15 @@ const mapTaskRow = (row: TaskRow): Task => ({
 export class TaskRepository {
   create(input: CreateTaskInput): Task {
     const statement = db.prepare(
-      `INSERT INTO tasks (title, description, due_date, priority, status, completed_at)
-       VALUES (@title, @description, @dueDate, @priority, @status,
+      `INSERT INTO tasks (title, description, data_prevista_conclusao, priority, status, data_conclusao_real)
+       VALUES (@title, @description, @dataPrevistaConclusao, @priority, @status,
          CASE WHEN @status = 'completed' THEN datetime('now') ELSE NULL END)`
     );
 
     const result = statement.run({
       title: input.title,
       description: input.description,
-      dueDate: input.dueDate ?? null,
+      dataPrevistaConclusao: input.dataPrevistaConclusao ?? null,
       priority: input.priority,
       status: input.status
     });
@@ -59,7 +59,8 @@ export class TaskRepository {
     }
 
     if (filters.date) {
-      clauses.push('due_date = @date');
+      const dateColumn = filters.dateType === 'real' ? 'date(data_conclusao_real)' : 'data_prevista_conclusao';
+      clauses.push(`${dateColumn} = @date`);
       params.date = filters.date;
     }
 
@@ -89,9 +90,9 @@ export class TaskRepository {
       params.description = input.description;
     }
 
-    if (input.dueDate !== undefined) {
-      updates.push('due_date = @dueDate');
-      params.dueDate = input.dueDate;
+    if (input.dataPrevistaConclusao !== undefined) {
+      updates.push('data_prevista_conclusao = @dataPrevistaConclusao');
+      params.dataPrevistaConclusao = input.dataPrevistaConclusao;
     }
 
     if (input.priority !== undefined) {
@@ -102,7 +103,9 @@ export class TaskRepository {
     if (input.status !== undefined) {
       updates.push('status = @status');
       params.status = input.status;
-      updates.push(`completed_at = CASE WHEN @status = 'completed' THEN datetime('now') ELSE NULL END`);
+      updates.push(
+        "data_conclusao_real = CASE WHEN @status = 'completed' THEN COALESCE(data_conclusao_real, datetime('now')) ELSE NULL END"
+      );
     }
 
     if (updates.length === 0) {

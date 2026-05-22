@@ -9,7 +9,7 @@ interface TaskFormProps {
 const initialForm: CreateTaskPayload = {
   title: '',
   description: '',
-  dueDate: null,
+  dataPrevistaConclusao: null,
   priority: 'medium',
   status: 'pending'
 };
@@ -34,7 +34,7 @@ export const TaskForm = ({ onCreate }: TaskFormProps) => {
     try {
       await onCreate({
         ...form,
-        dueDate: form.dueDate || null
+        dataPrevistaConclusao: form.dataPrevistaConclusao || null
       });
       setForm(initialForm);
     } finally {
@@ -60,15 +60,15 @@ export const TaskForm = ({ onCreate }: TaskFormProps) => {
 
       <input
         type="date"
-        value={form.dueDate ?? ''}
+        value={form.dataPrevistaConclusao ?? ''}
         onChange={(event) =>
           setForm((prev) => ({
             ...prev,
-            dueDate: event.target.value || null
+            dataPrevistaConclusao: event.target.value || null
           }))
         }
       />
-      {errors.dueDate ? <small style={{ color: 'crimson' }}>{errors.dueDate}</small> : null}
+      {errors.dataPrevistaConclusao ? <small style={{ color: 'crimson' }}>{errors.dataPrevistaConclusao}</small> : null}
 
       <select
         value={form.priority}

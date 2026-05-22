@@ -1,10 +1,10 @@
 import { TaskRepository } from '../repositories/task.repository.js';
-import type { Task, UpdateTaskInput } from '../types/task.js';
+import type { Task, TaskStatus } from '../types/task.js';
 
 export class UpdateTaskStatusService {
   constructor(private readonly repository: TaskRepository) {}
 
-  execute(taskId: number, input: UpdateTaskInput): Task | null {
-    return this.repository.update(taskId, input);
+  execute(taskId: number, status: TaskStatus): Task | null {
+    return this.repository.update(taskId, { status });
   }
 }
