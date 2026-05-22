@@ -40,7 +40,12 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- Scope is intentionally small and can be delivered incrementally.
+- Design choices prioritize readability over clever abstractions.
+- Modules/functions maintain single responsibility boundaries.
+- Interfaces, validation rules, and error behavior are explicit.
+- Manual validation approach is defined (automated tests optional for now).
+- Dependency additions are minimal and justified.
 
 ## Project Structure
 

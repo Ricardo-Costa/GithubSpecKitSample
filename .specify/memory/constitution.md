@@ -1,50 +1,93 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: N/A (template) → 1.0.0
+- Modified principles:
+	- Principle 1 placeholder → I. Small Scope First
+	- Principle 2 placeholder → II. Readability Over Cleverness
+	- Principle 3 placeholder → III. Single Responsibility by Default
+	- Principle 4 placeholder → IV. Explicit Contracts and Errors
+	- Principle 5 placeholder → V. Lightweight Quality Gates (No Initial Automated Tests)
+- Added sections:
+	- Project Constraints
+	- Development Workflow
+- Removed sections:
+	- None
+- Templates requiring updates:
+	- ✅ updated: .specify/templates/plan-template.md
+	- ✅ updated: .specify/templates/spec-template.md
+	- ✅ updated: .specify/templates/tasks-template.md
+	- ⚠ pending: .specify/templates/commands/*.md (directory not present; no files to update)
+- Follow-up TODOs:
+	- None
+-->
+
+# GitHub SpecKit Sample Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Small Scope First
+Every feature MUST be scoped to a small, deliverable increment that can be
+understood in one short review session. Large or broad changes MUST be split
+into smaller units before implementation. Rationale: a small project remains
+maintainable when change size stays controlled.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Readability Over Cleverness
+Code MUST optimize for clarity, predictable naming, and straightforward control
+flow. Dense abstractions, hidden side effects, and "smart" shortcuts that harm
+understanding MUST be avoided. Rationale: clean code is code that other
+contributors can safely read and modify.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Single Responsibility by Default
+Each module, class, and function MUST have one primary responsibility.
+Functions SHOULD stay short and focused; when a unit has multiple concerns, it
+MUST be split. Rationale: low coupling and high cohesion reduce regression risk
+and simplify future refactors.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Explicit Contracts and Errors
+Public inputs and outputs MUST be explicit, validated at boundaries, and
+documented in the related spec artifacts. Errors MUST fail fast with actionable
+messages; silent failure paths are prohibited. Rationale: explicit contracts
+make behavior trustworthy and debugging fast.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Lightweight Quality Gates (No Initial Automated Tests)
+For the initial project phase, automated tests are NOT required and MUST NOT
+block delivery. Quality MUST instead be demonstrated through clear acceptance
+scenarios, manual verification steps, linting, and review checklists. When
+project complexity grows, automated tests SHOULD be introduced by amendment.
+Rationale: the current project is intentionally small and simple, favoring fast
+iteration with disciplined manual validation.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Project Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- The project MUST remain small in architecture and dependency footprint.
+- New dependencies MUST be justified in the implementation plan.
+- Prefer built-in language capabilities over external frameworks when feasible.
+- Documentation MUST stay concise and directly tied to user-visible behavior.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Each change MUST map to a user story or requirement in the active spec.
+- Pull requests MUST include: scope summary, manual validation evidence, and
+	clean-code compliance notes.
+- Reviewers MUST reject changes that violate readability, responsibility, or
+	explicit contract principles.
+- Refactoring that improves clarity without changing behavior is encouraged and
+	SHOULD be done continuously in small increments.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution is the highest project policy. All plans, specs, tasks, and
+implementation work MUST pass the Constitution Check before execution.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Amendments require:
+1. A documented proposal describing the principle change and impact.
+2. Updates to affected templates and workflow guidance in the same change.
+3. A version update using semantic versioning:
+	 - MAJOR: incompatible governance or principle removals/redefinitions.
+	 - MINOR: new principle/section or materially expanded policy.
+	 - PATCH: wording clarifications without policy change.
+
+Compliance review is mandatory for each pull request and MUST verify alignment
+with all five core principles and project constraints.
+
+**Version**: 1.0.0 | **Ratified**: 2026-05-21 | **Last Amended**: 2026-05-21
