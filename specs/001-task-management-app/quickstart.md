@@ -69,3 +69,15 @@ Resultado esperado: mensagem informativa de nenhum resultado.
 - Mensagens de erro claras em 100% dos casos de validação obrigatória.
 - Filtros retornam resultados consistentes com os critérios selecionados.
 - Nenhum teste automatizado é requisito para esta versão.
+
+## 6) Registro de validação manual executada
+
+Data: 2026-05-22
+
+- [x] Health check backend (`GET /health`)
+- [x] Criação de tarefa (`POST /api/v1/tasks`)
+- [x] Listagem de tarefas (`GET /api/v1/tasks`)
+- [x] Atualização de status (`PATCH /api/v1/tasks/:id`)
+- [x] Filtro por status (`GET /api/v1/tasks?status=completed`)
+- [x] Build backend sem erros (`npm run build`)
+- [x] Build frontend sem erros (`npm run build`)

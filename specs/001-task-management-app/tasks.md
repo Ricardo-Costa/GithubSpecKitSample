@@ -18,12 +18,12 @@
 
 **Purpose**: Inicializar estrutura frontend/backend e padrões de projeto
 
-- [ ] T001 Criar estrutura base de diretórios em backend/src, frontend/src e database/schema.sql
-- [ ] T002 Inicializar backend TypeScript + Express em backend/package.json
-- [ ] T003 [P] Configurar TypeScript do backend em backend/tsconfig.json
-- [ ] T004 Inicializar frontend TypeScript + React em frontend/package.json
-- [ ] T005 [P] Configurar TypeScript do frontend em frontend/tsconfig.json
-- [ ] T006 [P] Configurar lint e formatação em backend/.eslintrc.cjs e frontend/.eslintrc.cjs
+- [X] T001 Criar estrutura base de diretórios em backend/src, frontend/src e database/schema.sql
+- [X] T002 Inicializar backend TypeScript + Express em backend/package.json
+- [X] T003 [P] Configurar TypeScript do backend em backend/tsconfig.json
+- [X] T004 Inicializar frontend TypeScript + React em frontend/package.json
+- [X] T005 [P] Configurar TypeScript do frontend em frontend/tsconfig.json
+- [X] T006 [P] Configurar lint e formatação em backend/.eslintrc.cjs e frontend/.eslintrc.cjs
 
 ---
 
@@ -33,14 +33,14 @@
 
 **⚠️ CRITICAL**: Nenhuma user story inicia antes desta fase
 
-- [ ] T007 Definir schema SQLite da entidade Task em database/schema.sql
-- [ ] T008 [P] Implementar inicialização e conexão SQLite em backend/src/db/sqlite.ts
-- [ ] T009 [P] Definir tipos de domínio Task e enums em backend/src/types/task.ts
-- [ ] T010 [P] Definir validações Zod de payload e filtros em backend/src/validators/task.validator.ts
-- [ ] T011 Implementar middleware de erro padronizado em backend/src/middlewares/error-handler.ts
-- [ ] T012 Configurar app Express e middlewares globais em backend/src/app/create-app.ts
-- [ ] T013 Implementar cliente HTTP base do frontend em frontend/src/services/http-client.ts
-- [ ] T014 Definir tipos compartilhados do frontend para contrato de API em frontend/src/types/task.ts
+- [X] T007 Definir schema SQLite da entidade Task em database/schema.sql
+- [X] T008 [P] Implementar inicialização e conexão SQLite em backend/src/db/sqlite.ts
+- [X] T009 [P] Definir tipos de domínio Task e enums em backend/src/types/task.ts
+- [X] T010 [P] Definir validações Zod de payload e filtros em backend/src/validators/task.validator.ts
+- [X] T011 Implementar middleware de erro padronizado em backend/src/middlewares/error-handler.ts
+- [X] T012 Configurar app Express e middlewares globais em backend/src/app/create-app.ts
+- [X] T013 Implementar cliente HTTP base do frontend em frontend/src/services/http-client.ts
+- [X] T014 Definir tipos compartilhados do frontend para contrato de API em frontend/src/types/task.ts
 
 **Checkpoint**: Fundação pronta para iniciar user stories
 
@@ -54,16 +54,16 @@
 
 ### Implementation for User Story 1
 
-- [ ] T015 [P] [US1] Implementar repositório para criar e listar tarefas em backend/src/repositories/task.repository.ts
-- [ ] T016 [US1] Implementar regras de criação de tarefa em backend/src/services/create-task.service.ts
-- [ ] T017 [US1] Implementar regras de listagem de tarefas em backend/src/services/list-tasks.service.ts
-- [ ] T018 [US1] Implementar controller de criação/listagem em backend/src/controllers/task.controller.ts
-- [ ] T019 [US1] Implementar rotas `POST /tasks` e `GET /tasks` em backend/src/routes/task.routes.ts
-- [ ] T020 [P] [US1] Implementar formulário de criação de tarefa em frontend/src/features/tasks/components/task-form.tsx
-- [ ] T021 [P] [US1] Implementar serviço de criação e listagem no frontend em frontend/src/features/tasks/services/task-api.ts
-- [ ] T022 [US1] Implementar página inicial com listagem de tarefas em frontend/src/pages/tasks-page.tsx
-- [ ] T023 [US1] Implementar validações de formulário e mensagens de erro em frontend/src/features/tasks/utils/task-form-validation.ts
-- [ ] T024 [US1] Integrar fluxo de criação + atualização da listagem em frontend/src/features/tasks/state/task-reducer.ts
+- [X] T015 [P] [US1] Implementar repositório para criar e listar tarefas em backend/src/repositories/task.repository.ts
+- [X] T016 [US1] Implementar regras de criação de tarefa em backend/src/services/create-task.service.ts
+- [X] T017 [US1] Implementar regras de listagem de tarefas em backend/src/services/list-tasks.service.ts
+- [X] T018 [US1] Implementar controller de criação/listagem em backend/src/controllers/task.controller.ts
+- [X] T019 [US1] Implementar rotas `POST /tasks` e `GET /tasks` em backend/src/routes/task.routes.ts
+- [X] T020 [P] [US1] Implementar formulário de criação de tarefa em frontend/src/features/tasks/components/task-form.tsx
+- [X] T021 [P] [US1] Implementar serviço de criação e listagem no frontend em frontend/src/features/tasks/services/task-api.ts
+- [X] T022 [US1] Implementar página inicial com listagem de tarefas em frontend/src/pages/tasks-page.tsx
+- [X] T023 [US1] Implementar validações de formulário e mensagens de erro em frontend/src/features/tasks/utils/task-form-validation.ts
+- [X] T024 [US1] Integrar fluxo de criação + atualização da listagem em frontend/src/features/tasks/state/task-reducer.ts
 
 **Checkpoint**: US1 funcional e validável isoladamente
 
@@ -77,13 +77,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Implementar atualização de tarefa por ID no repositório em backend/src/repositories/task.repository.ts
-- [ ] T026 [US2] Implementar regra de transição de status e `completedAt` em backend/src/services/update-task-status.service.ts
-- [ ] T027 [US2] Implementar endpoint `PATCH /tasks/:id` em backend/src/routes/task.routes.ts
-- [ ] T028 [P] [US2] Implementar ações de atualização de status na API frontend em frontend/src/features/tasks/services/task-api.ts
-- [ ] T029 [P] [US2] Implementar seletor de status na lista de tarefas em frontend/src/features/tasks/components/task-status-select.tsx
-- [ ] T030 [US2] Integrar atualização de status no estado local da aplicação em frontend/src/features/tasks/state/task-reducer.ts
-- [ ] T031 [US2] Exibir feedback de sucesso/erro ao atualizar status em frontend/src/features/tasks/components/task-list.tsx
+- [X] T025 [US2] Implementar atualização de tarefa por ID no repositório em backend/src/repositories/task.repository.ts
+- [X] T026 [US2] Implementar regra de transição de status e `completedAt` em backend/src/services/update-task-status.service.ts
+- [X] T027 [US2] Implementar endpoint `PATCH /tasks/:id` em backend/src/routes/task.routes.ts
+- [X] T028 [P] [US2] Implementar ações de atualização de status na API frontend em frontend/src/features/tasks/services/task-api.ts
+- [X] T029 [P] [US2] Implementar seletor de status na lista de tarefas em frontend/src/features/tasks/components/task-status-select.tsx
+- [X] T030 [US2] Integrar atualização de status no estado local da aplicação em frontend/src/features/tasks/state/task-reducer.ts
+- [X] T031 [US2] Exibir feedback de sucesso/erro ao atualizar status em frontend/src/features/tasks/components/task-list.tsx
 
 **Checkpoint**: US1 e US2 funcionais e validáveis de forma independente
 
@@ -97,13 +97,13 @@
 
 ### Implementation for User Story 3
 
-- [ ] T032 [US3] Implementar filtros por query (`priority`, `status`, `date`) no repositório em backend/src/repositories/task.repository.ts
-- [ ] T033 [US3] Implementar validação de query params de filtros em backend/src/validators/task.validator.ts
-- [ ] T034 [US3] Ajustar listagem com filtros no serviço em backend/src/services/list-tasks.service.ts
-- [ ] T035 [P] [US3] Implementar barra de filtros (prioridade/status/data) em frontend/src/features/tasks/components/task-filters.tsx
-- [ ] T036 [P] [US3] Implementar serialização de filtros na chamada HTTP em frontend/src/features/tasks/services/task-api.ts
-- [ ] T037 [US3] Integrar estado de filtros e ação de limpar filtros em frontend/src/features/tasks/state/task-reducer.ts
-- [ ] T038 [US3] Exibir estado vazio quando não houver resultados em frontend/src/features/tasks/components/task-list-empty-state.tsx
+- [X] T032 [US3] Implementar filtros por query (`priority`, `status`, `date`) no repositório em backend/src/repositories/task.repository.ts
+- [X] T033 [US3] Implementar validação de query params de filtros em backend/src/validators/task.validator.ts
+- [X] T034 [US3] Ajustar listagem com filtros no serviço em backend/src/services/list-tasks.service.ts
+- [X] T035 [P] [US3] Implementar barra de filtros (prioridade/status/data) em frontend/src/features/tasks/components/task-filters.tsx
+- [X] T036 [P] [US3] Implementar serialização de filtros na chamada HTTP em frontend/src/features/tasks/services/task-api.ts
+- [X] T037 [US3] Integrar estado de filtros e ação de limpar filtros em frontend/src/features/tasks/state/task-reducer.ts
+- [X] T038 [US3] Exibir estado vazio quando não houver resultados em frontend/src/features/tasks/components/task-list-empty-state.tsx
 
 **Checkpoint**: Todas as user stories funcionais e validáveis
 
@@ -113,10 +113,10 @@
 
 **Purpose**: Ajustes finais de qualidade, documentação e validação manual fim-a-fim
 
-- [ ] T039 [P] Atualizar documentação de execução backend/frontend em README.md
-- [ ] T040 Ajustar tratamento de erros de integração entre frontend e backend em frontend/src/features/tasks/services/task-api.ts
-- [ ] T041 Revisar nomenclatura e responsabilidades por módulo em backend/src/services e frontend/src/features/tasks
-- [ ] T042 Executar e registrar validação manual completa em specs/001-task-management-app/quickstart.md
+- [X] T039 [P] Atualizar documentação de execução backend/frontend em README.md
+- [X] T040 Ajustar tratamento de erros de integração entre frontend e backend em frontend/src/features/tasks/services/task-api.ts
+- [X] T041 Revisar nomenclatura e responsabilidades por módulo em backend/src/services e frontend/src/features/tasks
+- [X] T042 Executar e registrar validação manual completa em specs/001-task-management-app/quickstart.md
 
 ---
 
